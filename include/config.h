@@ -14,7 +14,7 @@
 // ===== WiFi & Weather =====
 const char* WIFI_SSID = "";
 const char* WIFI_PASS = "";
-const String WEATHER_API_KEY = "76184842ab4678df905a4ce6fa399db2";
+const String WEATHER_API_KEY = "";
 const String CITY = "Ho%20Chi%20Minh";
 const unsigned long WEATHER_INTERVAL = 10 * 60 * 1000; // 10 minutes
 
