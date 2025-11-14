@@ -126,12 +126,12 @@ void getWeather()
 void checkAlarm()
 {
   DateTime now = rtc.now();
-  if (alarmOn && now.hour() == alarmHour && now.minute() == alarmMin && now.second() == 0)
+  if (alarmOn && now.hour() == alarmHour && now.minute() == alarmMin)
   {
     digitalWrite(BUZZER, HIGH);
-    delay(10000000);
-    digitalWrite(BUZZER, LOW);
   }
+  else
+    digitalWrite(BUZZER, LOW);
 }
 
 // ==== Temperature Detector ====
@@ -179,7 +179,7 @@ void updateLCD()
   { // Time & Date
     DateTime now = rtc.now();
     lcd.print(now.year());
-    lcd.setCursor(0,0);
+    lcd.setCursor(0, 0);
     if (now.year() < 2000)
     {
       lcd.setCursor(0, 0);
@@ -251,6 +251,19 @@ void updateLCD()
         digitalWrite(BUZZER, HIGH);
         delay(500);
         digitalWrite(BUZZER, LOW);
+        delay(500);
+        digitalWrite(BUZZER, HIGH);
+        delay(500);
+        digitalWrite(BUZZER, LOW);
+        delay(500);
+        digitalWrite(BUZZER, HIGH);
+        delay(500);
+        digitalWrite(BUZZER, LOW);
+        delay(500);
+        digitalWrite(BUZZER, HIGH);
+        delay(500);
+        digitalWrite(BUZZER, LOW);
+
         countdownActive = false;
         remain = 0;
       }
@@ -289,11 +302,10 @@ void handleMenu()
     menuIndex = (menuIndex + 1) % TOTAL_MENU;
   if (btnPressed(BTN_OK))
   {
-     digitalWrite(BUZZER, LOW);
-     buzzerState = false;
-     tempAlert = false;
-    if (menuIndex == 2)
-      alarmOn = !alarmOn;
+    digitalWrite(BUZZER, LOW);
+    buzzerState = false;
+    tempAlert = false;
+    alarmOn = false;
     if (menuIndex == 3 && !countdownActive)
     {
       countdownTime = millis() + 60000;

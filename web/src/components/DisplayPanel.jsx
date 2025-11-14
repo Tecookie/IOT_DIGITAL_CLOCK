@@ -126,44 +126,48 @@ export default function DisplayPanel({
         )}
 
         {/* Alarm */}
-        {displayMode === "Alarm" && (
-          <div className="space-y-4">
-            <Row gutter={16} align="middle" justify="center">
-              <Col>
-                <Text strong>Hour:</Text>
-                <InputNumber
-                  min={0}
-                  max={23}
-                  value={status.alarmHour ?? 7}
-                  onChange={(val) => setStatus({ ...status, alarmHour: val })}
-                  style={{ marginLeft: 8 }}
-                />
-              </Col>
-              <Col>
-                <Text strong>Minute:</Text>
-                <InputNumber
-                  min={0}
-                  max={59}
-                  value={status.alarmMin ?? 0}
-                  onChange={(val) => setStatus({ ...status, alarmMin: val })}
-                  style={{ marginLeft: 8 }}
-                />
-              </Col>
-              <Col>
-                <Text strong>ON:</Text>
-                <Switch
-                  checked={status.alarmOn || false}
-                  onChange={(val) => setStatus({ ...status, alarmOn: val })}
-                  style={{ marginLeft: 8 }}
-                />
-              </Col>
-            </Row>
-            <Button type="primary" onClick={updateAlarm} block>
-              Update Alarm
-            </Button>
-          </div>
-        )}
+{displayMode === "Alarm" && (
+  <div className="space-y-4">
+    <Row gutter={16} align="middle" justify="center">
+      <Col>
+        <Text strong>Hour:</Text>
+        <select
+          value={status.alarmHour ?? 7}
+          onChange={(e) => setStatus({ ...status, alarmHour: Number(e.target.value) })}
+          className="ml-2 p-1 border rounded"
+        >
+          {Array.from({ length: 24 }).map((_, i) => (
+            <option key={i} value={i}>{i.toString().padStart(2, "0")}</option>
+          ))}
+        </select>
+      </Col>
+      <Col>
+        <Text strong>Minute:</Text>
+        <select
+          value={status.alarmMin ?? 0}
+          onChange={(e) => setStatus({ ...status, alarmMin: Number(e.target.value) })}
+          className="ml-2 p-1 border rounded"
+        >
+          {Array.from({ length: 60 }).map((_, i) => (
+            <option key={i} value={i}>{i.toString().padStart(2, "0")}</option>
+          ))}
+        </select>
+      </Col>
+      <Col>
+        <Text strong>ON:</Text>
+        <Switch
+          checked={status.alarmOn || false}
+          onChange={(val) => setStatus({ ...status, alarmOn: val })}
+          style={{ marginLeft: 8 }}
+        />
+      </Col>
+    </Row>
 
+    <Button type="primary" htmlType="button" onClick={updateAlarm} block>
+      Update Alarm
+    </Button>
+  </div>
+)}
         {/* Countdown */}
         {displayMode === "Countdown" && (
           <div className="space-y-4">
@@ -182,7 +186,7 @@ export default function DisplayPanel({
               }}
             >
               <option value="custom">⏱ Custom</option>
-              <option value={180}>🍜 Instant Noodles (3 min)</option>
+              <option value={20}>🍜 Instant Noodles (3 min)</option>
               <option value={300}>🥚 Boiled Egg Soft (5 min)</option>
               <option value={420}>🍳 Boiled Egg Medium (7 min)</option>
               <option value={600}>🍰 Baking Preheat (10 min)</option>

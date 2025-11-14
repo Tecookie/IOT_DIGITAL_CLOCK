@@ -21,26 +21,29 @@ export default function App() {
   const [displayMode, setDisplayMode] = useState(MENU_MODES[0]);
 
   // Fetch ESP32 status every second
- useEffect(() => {
+useEffect(() => {
   const interval = setInterval(async () => {
     try {
       const data = await getStatus();
-      setStatus(data);
 
-      // Sync menu from ESP32
-      if (data.menuName && data.menuName !== displayMode) {
-        setDisplayMode(data.menuName);
-      }
+      setStatus(prev => ({
+        ...data,
+        // Preserve local alarm edits
+        alarmHour: prev.alarmHour ?? data.alarmHour,
+        alarmMin: prev.alarmMin ?? data.alarmMin,
+        alarmOn: prev.alarmOn ?? data.alarmOn,
+      }));
+
+      // Sync menu only if it changed remotely
+      setDisplayMode(prev => (data.menuName && data.menuName !== prev ? data.menuName : prev));
     } catch (err) {
       console.error("Failed to fetch status:", err);
     }
   }, 1000);
 
   return () => clearInterval(interval);
-}, [displayMode]);
-
-  const handleUpdateAlarm = () => {
-    updateAlarm(status.alarmHour ?? 7, status.alarmMin ?? 0, status.alarmOn ?? false)
+}, []);  const handleUpdateAlarm = () => {
+    updateAlarm(status.alarmHour ?? 18, status.alarmMin ?? 0, status.alarmOn ?? false)
       .catch(console.error);
   };
 
