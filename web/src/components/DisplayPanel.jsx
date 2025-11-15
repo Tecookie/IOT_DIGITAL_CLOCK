@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Switch, InputNumber, Button, Badge, Row, Col, Typography, Divider } from "antd";
 import { WiDayCloudy, WiHumidity, WiRaindrop } from "react-icons/wi";
 import { AiOutlineWifi, AiOutlineClockCircle, AiOutlineFire } from "react-icons/ai";
@@ -22,6 +22,9 @@ export default function DisplayPanel({
     boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
     transition: "all 0.3s",
   };
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   const formatData = (val, unit) => (val !== undefined ? `${Math.round(val)}${unit}` : "N/A");
 
@@ -126,48 +129,48 @@ export default function DisplayPanel({
         )}
 
         {/* Alarm */}
-{displayMode === "Alarm" && (
-  <div className="space-y-4">
-    <Row gutter={16} align="middle" justify="center">
-      <Col>
-        <Text strong>Hour:</Text>
-        <select
-          value={status.alarmHour ?? 7}
-          onChange={(e) => setStatus({ ...status, alarmHour: Number(e.target.value) })}
-          className="ml-2 p-1 border rounded"
-        >
-          {Array.from({ length: 24 }).map((_, i) => (
-            <option key={i} value={i}>{i.toString().padStart(2, "0")}</option>
-          ))}
-        </select>
-      </Col>
-      <Col>
-        <Text strong>Minute:</Text>
-        <select
-          value={status.alarmMin ?? 0}
-          onChange={(e) => setStatus({ ...status, alarmMin: Number(e.target.value) })}
-          className="ml-2 p-1 border rounded"
-        >
-          {Array.from({ length: 60 }).map((_, i) => (
-            <option key={i} value={i}>{i.toString().padStart(2, "0")}</option>
-          ))}
-        </select>
-      </Col>
-      <Col>
-        <Text strong>ON:</Text>
-        <Switch
-          checked={status.alarmOn || false}
-          onChange={(val) => setStatus({ ...status, alarmOn: val })}
-          style={{ marginLeft: 8 }}
-        />
-      </Col>
-    </Row>
+        {displayMode === "Alarm" && (
+          <div className="space-y-4">
+            <Row gutter={16} align="middle" justify="center">
+              <Col>
+                <Text strong>Hour:</Text>
+                <select
+                  value={status.alarmHour ?? 7}
+                  onChange={(e) => setStatus({ ...status, alarmHour: Number(e.target.value) })}
+                  className="ml-2 p-1 border rounded"
+                >
+                  {Array.from({ length: 24 }).map((_, i) => (
+                    <option key={i} value={i}>{i.toString().padStart(2, "0")}</option>
+                  ))}
+                </select>
+              </Col>
+              <Col>
+                <Text strong>Minute:</Text>
+                <select
+                  value={status.alarmMin ?? 0}
+                  onChange={(e) => setStatus({ ...status, alarmMin: Number(e.target.value) })}
+                  className="ml-2 p-1 border rounded"
+                >
+                  {Array.from({ length: 60 }).map((_, i) => (
+                    <option key={i} value={i}>{i.toString().padStart(2, "0")}</option>
+                  ))}
+                </select>
+              </Col>
+              <Col>
+                <Text strong>ON:</Text>
+                <Switch
+                  checked={status.alarmOn || false}
+                  onChange={(val) => setStatus({ ...status, alarmOn: val })}
+                  style={{ marginLeft: 8 }}
+                />
+              </Col>
+            </Row>
 
-    <Button type="primary" htmlType="button" onClick={updateAlarm} block>
-      Update Alarm
-    </Button>
-  </div>
-)}
+            <Button type="primary" htmlType="button" onClick={updateAlarm} block>
+              Update Alarm
+            </Button>
+          </div>
+        )}
         {/* Countdown */}
         {displayMode === "Countdown" && (
           <div className="space-y-4">
@@ -186,7 +189,7 @@ export default function DisplayPanel({
               }}
             >
               <option value="custom">⏱ Custom</option>
-              <option value={20}>🍜 Instant Noodles (3 min)</option>
+              <option value={20}>🍜 Instant Noodles (20 second)</option>
               <option value={300}>🥚 Boiled Egg Soft (5 min)</option>
               <option value={420}>🍳 Boiled Egg Medium (7 min)</option>
               <option value={600}>🍰 Baking Preheat (10 min)</option>
