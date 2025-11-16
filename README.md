@@ -63,6 +63,7 @@ components** - **Framer Motion animations** - Mobile responsive UI\
 ### 1️⃣ Install Dependencies
 
 ``` bash
+cd web
 npm install
 ```
 
