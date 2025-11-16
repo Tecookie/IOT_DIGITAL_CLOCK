@@ -67,7 +67,7 @@ cd web
 npm install
 ```
 
-### 2️⃣ Add `.env`
+### 2️⃣ Add `.env` (This should appear on the first boot in LCD)
 
     VITE_ESP32_API=http://YOUR_ESP32_IP:3000
 
