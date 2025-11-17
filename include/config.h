@@ -31,6 +31,6 @@ unsigned long countdownTime = 0;
 bool countdownActive = false;
 
 // ===== Temp ======
-const float TEMP_HIGH = 35.0;   // Too hot (°C)
+const float TEMP_HIGH = 33.0;   // Too hot (°C)
 const float TEMP_LOW  = 15.0;   // Too cold (°C)
 const unsigned long TEMP_ALARM_DURATION = 5000; // 5 seconds

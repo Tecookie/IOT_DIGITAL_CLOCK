@@ -10,6 +10,7 @@ import {
   changeLCDMode,
   toggleBuzzer,
 } from "./api/esp32Api";
+import FPTU_Logo from "./assets/images/fptu_logo.png"
 
 const { Title } = Typography;
 
@@ -21,28 +22,27 @@ export default function App() {
   const [displayMode, setDisplayMode] = useState(MENU_MODES[0]);
 
   // Fetch ESP32 status every second
-useEffect(() => {
-  const interval = setInterval(async () => {
-    try {
-      const data = await getStatus();
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const data = await getStatus();
 
-      setStatus(prev => ({
-        ...data,
-        // Preserve local alarm edits
-        alarmHour: prev.alarmHour ?? data.alarmHour,
-        alarmMin: prev.alarmMin ?? data.alarmMin,
-        alarmOn: prev.alarmOn ?? data.alarmOn,
-      }));
+        setStatus(prev => ({
+          ...data,
+          alarmHour: prev.alarmHour ?? data.alarmHour,
+          alarmMin: prev.alarmMin ?? data.alarmMin,
+          alarmOn: prev.alarmOn ?? data.alarmOn,
+        }));
 
-      // Sync menu only if it changed remotely
-      setDisplayMode(prev => (data.menuName && data.menuName !== prev ? data.menuName : prev));
-    } catch (err) {
-      console.error("Failed to fetch status:", err);
-    }
-  }, 1000);
+        // Sync menu only if it changed remotely
+        setDisplayMode(prev => (data.menuName && data.menuName !== prev ? data.menuName : prev));
+      } catch (err) {
+        console.error("Failed to fetch status:", err);
+      }
+    }, 1000);
 
-  return () => clearInterval(interval);
-}, []);  const handleUpdateAlarm = () => {
+    return () => clearInterval(interval);
+  }, []); const handleUpdateAlarm = () => {
     updateAlarm(status.alarmHour ?? 18, status.alarmMin ?? 0, status.alarmOn ?? false)
       .catch(console.error);
   };
@@ -61,11 +61,15 @@ useEffect(() => {
   };
 
   return (
+    
     <div className="min-h-screen w-screen bg-gradient-to-r from-blue-50 to-indigo-50 p-6 font-sans flex flex-col items-center">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
         <Title level={2} className="text-blue-700 mb-4 flex items-center gap-3 justify-center">
-          <AiOutlineClockCircle className="text-3xl" /> ESP32 Clock Dashboard
+          <AiOutlineClockCircle className="text-3xl" /> Digital Clock Dashboard
         </Title>
+        <div className="w-full flex items-center gap-3 justify-center">        
+          <img src={FPTU_Logo} className="w-1/5"></img>
+        </div>
         <Divider className="border-blue-200" />
 
         {/* Mode Selector */}
@@ -96,6 +100,7 @@ useEffect(() => {
       <footer className="mt-6 text-gray-500 text-sm">
         &copy; Team 6 IOT102_Digital_Clock
       </footer>
+
     </div>
   );
 }

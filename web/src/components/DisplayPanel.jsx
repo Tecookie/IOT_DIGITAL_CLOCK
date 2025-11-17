@@ -26,7 +26,7 @@ export default function DisplayPanel({
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
-  const formatData = (val, unit) => (val !== undefined ? `${Math.round(val)}${unit}` : "N/A");
+  const formatData = (val, unit) => (val !== undefined ? `${val}${unit}` : "N/A");
 
   return (
     <div className="flex flex-wrap gap-6 justify-center">
@@ -113,7 +113,8 @@ export default function DisplayPanel({
                 <Text strong>{status.weatherDesc?.toUpperCase() || "N/A"}</Text>
               </Col>
               <Col span={12} className="flex items-center justify-end">
-                <Text style={{ fontSize: 20 }}>{status.weatherTemp?.replace("�", "°") || "--°C"}</Text>
+                
+                <Text style={{ fontSize: 20 }}>{status.weatherTemp?.replace("�C", "°C -") || "--°C"}</Text>
               </Col>
             </Row>
           </div>
@@ -123,7 +124,7 @@ export default function DisplayPanel({
         {displayMode === "Time" && (
           <div className="space-y-2 text-center">
             <AiOutlineClockCircle style={{ fontSize: 40, color: "#1890ff" }} className="mx-auto" />
-            <Text style={{ fontSize: 28, fontWeight: 700 }}>{status.time || "--:--:--"}</Text>
+            <Text style={{ fontSize: 28, fontWeight: 700 }}>{status.time || "--:--:--"}</Text><br></br>
             <Text style={{ fontSize: 18, color: "#555" }}>📅 {status.date || "--/--/----"}</Text>
           </div>
         )}

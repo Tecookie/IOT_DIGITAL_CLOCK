@@ -5,7 +5,6 @@ const API_URL = import.meta.env.VITE_ESP32_API;
 // Axios instance
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 3000,
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
 });
 
